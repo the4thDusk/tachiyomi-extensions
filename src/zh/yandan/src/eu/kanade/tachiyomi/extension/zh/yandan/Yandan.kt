@@ -26,10 +26,12 @@ class Yandan : ParsedHttpSource() {
         var _url = element.select("a").attr("href").replace(baseUrl, "")
         if (_name.isEmpty()) {
             _name = "1"
-            _url = mangeid + "1/"
+            _url = mangeid
+            chapter_number = 1F
         }
         name = _name
         url = _url
+        chapter_number =
     }
 
     override fun chapterListSelector(): String = "div.post-navigation.font-theme ul li"
@@ -52,14 +54,14 @@ class Yandan : ParsedHttpSource() {
         author = document.select("div.post-meta").select("a").first().text()
         artist = author
         description = document.select("blockquote").first().text()
-        thumbnail_url = document.select(".post-content").select("img").first().attr("data-src")
+//        thumbnail_url = document.select(".post-content").select("img").first().attr("data-src")
     }
 
     override fun pageListParse(document: Document): List<Page> {
-        val node = document.select("div.post-content").select("p")
+        val node = document.select("div.post-content").select("img")
         val ret = ArrayList<Page>()
         for ((i, p) in node.withIndex()) {
-            ret.add(Page(i, "", p.select("img").attr("data-src")))
+            ret.add(Page(i, "", p.attr("data-src")))
         }
         return ret
     }
